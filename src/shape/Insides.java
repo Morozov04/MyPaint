@@ -7,8 +7,8 @@
 package shape;
 
 import java.awt.Graphics2D;
-import java.awt.geom.RectangularShape;
 
 public interface Insides {
-    void paint( Graphics2D g, RectangularShape shape);
+    void paint( Graphics2D g, MyShape s);
+    Insides clone();
 }

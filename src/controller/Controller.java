@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package controller;
 
 import java.awt.Graphics2D;
@@ -11,35 +5,42 @@ import java.awt.geom.Point2D;
 import model.Model;
 import picture.MyFrame;
 import picture.MyPanel;
-import shape.MyShape;
 
 public class Controller {
     Model model;
-    MyShape shape;
     MyPanel panel ;
     MyFrame frame;
-    Point2D [] p;
+    State state;
+
+    private static Controller controller = null;
 
     public void setPress(Point2D point2D) {
-        p[0]=point2D;
-        model.createShape();
-    }
+        state.getActivity().press(point2D);
 
+    }
     public void setDragg(Point2D point2D) {
-        p[1]=point2D;
-        model.setFrame(p);
+        state.getActivity().dragg(point2D);
+
     }
 
     public void draw(Graphics2D g2) {
         model.draw(g2);
     }
 
-    public Controller() {
-        model = new Model();
+    private Controller() {
+        state = new State();
+        model = model.getInstance();
+        state.setModel(model);
         panel = new MyPanel(this);
         model.addObserver(panel);
-        frame = new MyFrame(panel);
-        p = new Point2D[2];
+        frame = new MyFrame(panel,state);
     }
 
+    public static Controller getIntance(){
+        if (controller == null) { controller = new Controller();
+
+        }
+        return controller;
+
+    }
 }
